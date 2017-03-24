@@ -19,6 +19,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^templates/(?P<tmpl_name>\w+)$', views.template, name='index'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
