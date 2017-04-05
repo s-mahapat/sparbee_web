@@ -16,6 +16,7 @@
 
     <!-- Custom CSS -->
     <link href="/static/css/simple-sidebar.css" rel="stylesheet">
+    <link href="/static/css/sparbee.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,16 +35,15 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="#">
-                        SparBee
-                    </a>
+                    <a href="#/home">SparBee</a>
                 </li>
                 <li>
-                    <a href="#">Check In</a>
+                    <a href="#checkout">Check Out</a>
                 </li>
                 <li>
-                    <a href="#">Check Out</a>
+                    <a href="#checkin">Check In</a>
                 </li>
+                
                 <li>
                     <a href="#">Track</a>
                 </li>
@@ -54,9 +54,10 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12" ng-view>
-                    </div>
+            	<div class="row logobar">
+            		<div class="col-sm-1 col-sm-offset-11"><img alt="" src="/static/images/sparbeeV2.png" id="sparbeelogo"></div>
+            	</div>
+                <div class="row" ng-view>
                 </div>
             </div>
         </div>

@@ -10,5 +10,11 @@ sparbeeApp.config(function ($routeProvider, $locationProvider, $compileProvider)
         templateUrl: 'templates/home'
     }).when('/', {
         templateUrl: 'templates/home'
+    }).when('/checkout', {
+        templateUrl: 'templates/checkout'
+    }).when('/checkin', {
+        templateUrl: 'templates/checkin'
     });
+    
+    $locationProvider.hashPrefix('');
 });
