@@ -19,7 +19,9 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^templates/(?P<tmpl_name>\w+)$', views.template, name='index'),
+    url(r'^templates/(?P<tmpl_name>\w+)$', views.template, name='template'),
+    url(r'^api/checkout$', views.CheckOut.as_view(), name='checkout'),
+    url(r'^api/truck/(?P<pk>\w+)?$', views.TruckList.as_view(), name='truck'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

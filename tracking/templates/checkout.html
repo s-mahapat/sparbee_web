@@ -1,26 +1,49 @@
+{% verbatim %}
 <div class="row">
-	<div class="col-sm-12">
-		<form class="form-inline">
-			<div class="form-group col-sm-4">
-				<label class="control-label">Truck Number</label> <input type="text"
-					class="form-control" id="truckNumber" placeholder="Truck Number">
+  <div class="col-sm-12">
+    <form class="form-inline">
+      <div class="form-group col-sm-4">
+        <label class="control-label">Truck Number</label> <input type="text"
+          class="form-control" id="truckNumber" name="truckNumber"
+          placeholder="Truck Number" ng-model="trucknumber">
 
-			</div>
-			<div class="form-group col-sm-4">
-				<label class="control-label">TAG MAC ID</label> <input
-					type="password" class="form-control" id="tagMacId"
-					placeholder="MAC ID">
+      </div>
+      <div class="form-group col-sm-4">
+        <label class="control-label">TAG MAC ID</label> <input type="text"
+          class="form-control" id="tagMacId" name="macid"
+          placeholder="MAC ID" ng-model="macid">
 
-			</div>
-			<button class="btn btn-success" type="submit">Save</button>
-		</form>
-	</div>
+      </div>
+      <button class="btn btn-success" type="button" ng-click="save()">Save</button>
+    </form>
+  </div>
 </div>
 <div class="row">
-	<div class="col-sm-4">
-		<div class="panel panel-default">
-			<div class="panel-body">Use this form to track any items that
-				are moving out of the warehouse</div>
-		</div>
-	</div>
+  <div class="col-sm-8">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Sl. No.</th>
+          <th>Truck Reg No#</th>
+          <th>Tag Mac ID</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="item in checkOutList">
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{item.trucknumber}}</td>
+          <td>{{item.macid}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-body">Use this form to track any items that
+        are moving out of the warehouse</div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}

@@ -14,7 +14,7 @@ class Driver(models.Model):
 class STag(models.Model):
 
     mac_id = models.CharField(max_length=20)
-    active = models.BooleanField()
+    active = models.BooleanField(default=True)
 
 
 class TaggedTrucks(models.Model):
