@@ -127,3 +127,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "sparbee_web", "static"),
     os.path.join(BASE_DIR, "tracking", "static"),
 ]
+
+from settings_prod import *
