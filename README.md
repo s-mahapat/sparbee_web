@@ -1,8 +1,9 @@
 # sparbee_web
 Shipment tracking optimization
 
-Installation:
+#Installation:
 ===============
 
 run apt-get install python-dev libmysqlclient-dev
-pip install -r requirements.txt
+run pip install -r requirements.txt
+run build.sh

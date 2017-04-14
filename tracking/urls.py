@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^templates/(?P<tmpl_name>\w+)$', views.template, name='template'),
     url(r'^api/checkout$', views.CheckOut.as_view(), name='checkout'),
     url(r'^api/truck/(?P<pk>\w+)?$', views.TruckList.as_view(), name='truck'),
+    url(r'^api/truck/(?P<truck_id>\d+)/items?$', views.ItemsInTruck.as_view(), name='truck'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

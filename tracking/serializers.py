@@ -5,7 +5,21 @@ Created on 09-Apr-2017
 '''
 from rest_framework import serializers
 
-from models import TaggedTrucks, Truck
+from models import TaggedTrucks, Truck, STag
+
+class STagSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = STag
+        fields = ('mac_id', 'active', 'location')
+
+
+class TruckSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Truck
+        fields = ('id', 'reg_no', 'tags')
+
 
 class TaggedTrucksSerializer(serializers.ModelSerializer):
 
@@ -14,8 +28,4 @@ class TaggedTrucksSerializer(serializers.ModelSerializer):
         fields = ('id', 'stag', 'truck')
 
 
-class TruckSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Truck
-        fields = ('id', 'reg_no')

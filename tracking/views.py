@@ -42,9 +42,20 @@ class TruckList(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveM
     queryset = Truck.objects.all()
     serializer_class = TruckSerializer
 
-    def get(self, request, truck_id=None, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
 
         if kwargs['pk']:
             return mixins.RetrieveModelMixin.retrieve(self, request, *args, **kwargs)
         else:
             return mixins.ListModelMixin.list(self, request, *args, **kwargs)
+
+
+class ItemsInTruck(generics.GenericAPIView, mixins.ListModelMixin):
+
+    queryset = TaggedTrucks.objects.all()
+    serializer_class = TaggedTrucksSerializer
+
+    def get(self, request, truck_id, *args, **kwargs):
+
+        self.queryset = TaggedTrucks.objects.filter(truck=truck_id)
+        return mixins.ListModelMixin.list(self, request, *args, **kwargs)

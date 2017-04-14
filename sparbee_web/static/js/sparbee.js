@@ -48,41 +48,52 @@ sparbeeApp.controller('checkOutController', [
       }
     } ]);
 
-sparbeeApp.controller('checkInController',
-    [
-        '$scope',
-        '$http',
-        function($scope, $http) {
+sparbeeApp.controller('checkInController', [
+    '$scope',
+    '$http',
+    function($scope, $http) {
 
-          function getTruckList() {
-            $http({
-              method : 'GET',
-              url : '/api/truck/',
-            }).then(
-                function(response) {
-                  $scope.trucklist = response.data;
-                },
-                function(errorResponse) {
-                  alert('Failed to get data from server'
-                      + errorResponse.statusText);
-                });
-          }
-
-          $scope.initialize = function() {
-            console.log('scope init called');
-            var map = new google.maps.Map(document
-                .getElementById('map_div'), {
-              center : {
-                lat : 12.971208,
-                lng : 77.599121
-              },
-              zoom : 10
+      function getTruckList() {
+        $http({
+          method : 'GET',
+          url : '/api/truck/',
+        }).then(
+            function(response) {
+              $scope.trucklist = response.data;
+            },
+            function(errorResponse) {
+              alert('Failed to get data from server'
+                  + errorResponse.statusText);
             });
-          }
+      }
 
-          google.maps.event.addDomListener(window, 'load',
-              $scope.initialize);
+      // draws the map on screen.
+      $scope.initialize = function() {
 
-          getTruckList();
+        var markers = [];
+        $http.get('/api/truck/1/items')
+            .then(function(response) {
+            }, function(errorResponse) {
+            });
+        var myLatlng = new google.maps.LatLng(12.971208, 77.599121);
+        var map = new google.maps.Map(document
+            .getElementById('map_div'), {
+          center : myLatlng,
+          mapTypeId : google.maps.MapTypeId.ROADMAP,
+          zoom : 10
+        });
 
-        } ]);
+        var marker = new google.maps.Marker({
+          position : myLatlng,
+          map : map,
+          title : 'Location'
+        });
+      }
+
+      $scope.getMarkers = function() {
+
+      }
+
+      getTruckList();
+
+    } ]);
