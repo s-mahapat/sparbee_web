@@ -6,8 +6,9 @@ from rest_framework import mixins
 from rest_framework import generics
 from django.http import JsonResponse
 
-from models import STag, TaggedTrucks, Truck
+from models import STag, TaggedTrucks, Truck, Tracking
 from serializers import TaggedTrucksSerializer, TruckSerializer
+from collections import OrderedDict
 
 
 # Create your views here.
@@ -57,5 +58,15 @@ class ItemsInTruck(generics.GenericAPIView, mixins.ListModelMixin):
 
     def get(self, request, truck_id, *args, **kwargs):
 
+        # get all the tags on the truck
         self.queryset = TaggedTrucks.objects.filter(truck=truck_id)
-        return mixins.ListModelMixin.list(self, request, *args, **kwargs)
+
+        result = OrderedDict()
+
+        # for every tag get the location
+        for tag in self.queryset:
+            tag_locations = Tracking.objects.filter(stag=tag.stag)
+            for location in tag_locations:
+                result[tag.id] = {'mac_id': tag.stag.mac_id, 'lat': location.lat, 'lng': location.lng}
+
+        return JsonResponse(result)
