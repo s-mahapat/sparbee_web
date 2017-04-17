@@ -8,13 +8,12 @@ from rest_framework import serializers
 from models import TaggedTrucks, Truck, STag, Tracking
 
 
-
-
 class TruckSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Truck
         fields = ('id', 'reg_no', 'tags')
+
 
 class TrackingSerializer(serializers.ModelSerializer):
 
@@ -22,12 +21,12 @@ class TrackingSerializer(serializers.ModelSerializer):
         model = Tracking
         fields = ('id', 'stag', 'lat', 'lng')
 
+
 class TaggedTrucksSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaggedTrucks
         fields = ('id', 'stag', 'truck')
-
 
 
 class STagSerializer(serializers.ModelSerializer):

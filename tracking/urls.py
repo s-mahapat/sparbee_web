@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^api/checkout$', views.CheckOut.as_view(), name='checkout'),
     url(r'^api/truck/(?P<pk>\w+)?$', views.TruckList.as_view(), name='truck'),
     url(r'^api/truck/(?P<truck_id>\d+)/items?$', views.ItemsInTruck.as_view(), name='truckitems'),
+    url(r'^api/tracking?$', views.Tracking.as_view(), name='tracking'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

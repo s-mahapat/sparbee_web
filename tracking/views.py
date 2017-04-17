@@ -7,7 +7,7 @@ from rest_framework import generics
 from django.http import JsonResponse
 
 from models import STag, TaggedTrucks, Truck, Tracking
-from serializers import TaggedTrucksSerializer, TruckSerializer
+from serializers import TaggedTrucksSerializer, TruckSerializer, TrackingSerializer
 from collections import OrderedDict
 
 
@@ -70,3 +70,25 @@ class ItemsInTruck(generics.GenericAPIView, mixins.ListModelMixin):
                 result[tag.id] = {'mac_id': tag.stag.mac_id, 'lat': location.lat, 'lng': location.lng}
 
         return JsonResponse(result)
+
+class Tracking(generics.GenericAPIView, mixins.CreateModelMixin):
+
+    queryset = Tracking.objects.all()
+    serializer_class = TrackingSerializer
+
+    def post(self, request, *args, **kwargs):
+        vehice_number = request.POST.get('veh_no', None)
+        tag_mac_id = request.POST.get('mac_id', None)
+        lat = request.POST.get('lat', None)
+        lng = request.POST.get('lng', None)
+
+        truck, created = Truck.objects.get_or_create(reg_no=vehice_number)
+        stag, created = STag.objects.get_or_create(mac_id=tag_mac_id, active=True)
+
+        TaggedTrucks.objects.get_or_create(stag=stag, truck=truck)
+        request.POST['stag'] = stag.id
+
+        return self.create(request, *args, **kwargs)
+
+
+
