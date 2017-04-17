@@ -71,7 +71,7 @@ class ItemsInTruck(generics.GenericAPIView, mixins.ListModelMixin):
 
         return JsonResponse(result)
 
-class Tracking(generics.GenericAPIView, mixins.CreateModelMixin):
+class TrackingAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     queryset = Tracking.objects.all()
     serializer_class = TrackingSerializer
