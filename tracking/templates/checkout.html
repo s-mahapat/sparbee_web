@@ -28,8 +28,8 @@
           <th>Tag Mac ID</th>
         </tr>
       </thead>
-      <tbody ng-repeat="item in checkOutList">
-        <tr>
+      <tbody>
+        <tr ng-repeat="item in checkOutList">
           <td>{{$index + 1}}</td>
           <td>{{item.trucknumber}}</td>
           <td>{{item.macid}}</td>

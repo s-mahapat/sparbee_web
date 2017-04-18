@@ -65,9 +65,11 @@ class ItemsInTruck(generics.GenericAPIView, mixins.ListModelMixin):
 
         # for every tag get the location
         for tag in self.queryset:
-            tag_locations = Tracking.objects.filter(stag=tag.stag)
+            result[tag.id] = {'mac_id': tag.stag.mac_id, 'lat': 0, 'lng': 0}
+            tag_locations = Tracking.objects.filter(stag=tag.stag).order_by('-id')[:1]
             for location in tag_locations:
-                result[tag.id] = {'mac_id': tag.stag.mac_id, 'lat': location.lat, 'lng': location.lng}
+                result[tag.id].update({'mac_id': tag.stag.mac_id, 'lat': location.lat, 'lng': location.lng})
+
 
         return JsonResponse(result)
 
