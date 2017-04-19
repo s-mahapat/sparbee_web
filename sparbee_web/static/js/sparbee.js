@@ -17,7 +17,10 @@ sparbeeApp
       }).when('/checkin', {
         templateUrl : 'templates/checkin',
         controller : 'checkInController'
-      });
+      }).when('/tracktag', {
+          templateUrl : 'templates/tracktag',
+          controller: 'TrackingController'
+        });
 
       $locationProvider.hashPrefix('');
     });
@@ -85,7 +88,8 @@ sparbeeApp.controller('checkInController', [
                 var latlng = new google.maps.LatLng(locationObjs[id].lat, locationObjs[id].lng);
                 $scope.locations.push({'id': id,
                   'mac_id': locationObjs[id].mac_id,
-                  'location': latlng
+                  'location': latlng,
+                  'update_time': locationObjs[id].update_time
                 });
                }
 
@@ -132,3 +136,28 @@ sparbeeApp.controller('checkInController', [
       getTruckList();
 
     } ]);
+
+sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope, $http){
+
+    $scope.getAllTags = function(){
+        $http.get('/api/taglist').then(function(response){
+            // success case
+            try{
+                $scope.taglist = response.data;
+
+            }catch(err){
+                alert(err);
+            }
+        }, function(errorResponse){
+            // error case
+            alert('Failed to get tags list from server' + errorResponse.statusText);
+        });
+    };
+
+    $scope.showTagLocationHistory = function(tag){
+
+    }
+
+    // get all tags from server
+    $scope.getAllTags();
+}]);

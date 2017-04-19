@@ -19,7 +19,7 @@ class TrackingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tracking
-        fields = ('id', 'stag', 'lat', 'lng')
+        fields = ('id', 'stag', 'lat', 'lng', 'update_time')
 
 
 class TaggedTrucksSerializer(serializers.ModelSerializer):
@@ -36,3 +36,4 @@ class STagSerializer(serializers.ModelSerializer):
     class Meta:
         model = STag
         fields = ('mac_id', 'active', 'location')
+        depth = 1

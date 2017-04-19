@@ -1,0 +1,36 @@
+{% verbatim %}
+<div class="row">
+  <div class="col-sm-8">
+    <form id="trackingForm" method="post" class="form-horizontal">
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Sparbee MAC ID</label>
+        <div class="col-xs-5 selectContainer">
+          <select class="form-control" name="size" ng-model="selectedTag"
+            ng-options="tag.mac_id for tag in taglist track by tag.id" ng-change="">
+            <option value="">Select MAC ID</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<h5>Tag Trail:</h5>
+<div class="row">
+<div class="col-sm-offset-1 col-sm-10">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Last updated location</th>
+        <th>Update time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+{% endverbatim %}

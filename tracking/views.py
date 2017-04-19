@@ -7,7 +7,7 @@ from rest_framework import generics
 from django.http import JsonResponse
 
 from models import STag, TaggedTrucks, Truck, Tracking
-from serializers import TaggedTrucksSerializer, TruckSerializer, TrackingSerializer
+from serializers import TaggedTrucksSerializer, TruckSerializer, TrackingSerializer,  STagSerializer
 from collections import OrderedDict
 
 
@@ -65,10 +65,11 @@ class ItemsInTruck(generics.GenericAPIView, mixins.ListModelMixin):
 
         # for every tag get the location
         for tag in self.queryset:
-            result[tag.id] = {'mac_id': tag.stag.mac_id, 'lat': 0, 'lng': 0}
+            result[tag.id] = {'mac_id': tag.stag.mac_id, 'lat': 0, 'lng': 0, 'update_time': 0}
             tag_locations = Tracking.objects.filter(stag=tag.stag).order_by('-id')[:1]
             for location in tag_locations:
-                result[tag.id].update({'mac_id': tag.stag.mac_id, 'lat': location.lat, 'lng': location.lng})
+                result[tag.id].update({'mac_id': tag.stag.mac_id, 'lat': location.lat,
+                                       'lng': location.lng, 'update_time': location.update_time})
 
 
         return JsonResponse(result)
@@ -93,4 +94,11 @@ class TrackingAPI(generics.GenericAPIView, mixins.CreateModelMixin):
         return self.create(request, *args, **kwargs)
 
 
+class TagList(generics.GenericAPIView, mixins.ListModelMixin):
+
+    queryset = STag.objects.all()
+    serializer_class = STagSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
