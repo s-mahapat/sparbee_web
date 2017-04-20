@@ -127,7 +127,6 @@ sparbeeApp.controller('checkInController', [
         var geocoder = new google.maps.Geocoder;
         geocoder.geocode({'location': latlng}, function(results, status) {
               if (status === 'OK' && results[1]) {
-                console.log(results[1].formatted_address);
                 $('#' + elm).html(results[1].formatted_address);
               }
         });
@@ -144,6 +143,7 @@ sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope,
             // success case
             try{
                 $scope.taglist = response.data;
+                $scope.selectedTag = $scope.taglist[0];
 
             }catch(err){
                 alert(err);
@@ -154,7 +154,27 @@ sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope,
         });
     };
 
-    $scope.showTagLocationHistory = function(tag){
+    $scope.showTagLocation = function(){
+        var lastUpdatedLocation = $scope.selectedTag.location[$scope.selectedTag.location.length - 1];
+        if(lastUpdatedLocation != undefined){
+            var latlng = new google.maps.LatLng(lastUpdatedLocation.lat, lastUpdatedLocation.lng);
+            // draw the map, center based on first location
+            var map = new google.maps.Map(document
+                    .getElementById('map_div'), {
+              center : latlng,
+              mapTypeId : google.maps.MapTypeId.ROADMAP,
+              zoom : 8
+            });
+
+            var marker = new google.maps.Marker({
+                position : latlng,
+                map : map,
+                title : $scope.selectedTag.mac_id
+            });
+
+        }else{
+            $("#map_div").empty();
+        }
 
     }
 

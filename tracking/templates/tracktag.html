@@ -6,7 +6,7 @@
         <label class="col-xs-3 control-label">Sparbee MAC ID</label>
         <div class="col-xs-5 selectContainer">
           <select class="form-control" name="size" ng-model="selectedTag"
-            ng-options="tag.mac_id for tag in taglist track by tag.id" ng-change="">
+            ng-options="tag.mac_id for tag in taglist track by tag.id" ng-change="showTagLocation()">
             <option value="">Select MAC ID</option>
           </select>
         </div>
@@ -32,5 +32,8 @@
     </tbody>
   </table>
 </div>
+</div>
+<div class="row">
+<div id="map_div" class="col-sm-4" style="position: relative; height: 600px; width: 100%;"></div>
 </div>
 {% endverbatim %}

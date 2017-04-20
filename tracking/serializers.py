@@ -35,5 +35,5 @@ class STagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = STag
-        fields = ('mac_id', 'active', 'location')
+        fields = ('id', 'mac_id', 'active', 'location')
         depth = 1
