@@ -112,7 +112,7 @@ sparbeeApp.controller('checkInController', [
                   });
                 }
               }else{
-                $('#map_div').empty();
+                $('#map_div').html("No location information available");
               }
 
             }, function(errorResponse) {
@@ -136,6 +136,20 @@ sparbeeApp.controller('checkInController', [
 
     } ]);
 
+
+//given lat, lng returns the address.
+// elm: the id of the element that should be used to update the value
+// elm can be changed to a callback later if needed
+function getAddress(latlng, elm){
+  var geocoder = new google.maps.Geocoder;
+  geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === 'OK' && results[1]) {
+          $('#' + elm).html(results[1].formatted_address);
+        }
+  });
+
+}
+
 sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope, $http){
 
     $scope.getAllTags = function(){
@@ -144,6 +158,7 @@ sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope,
             try{
                 $scope.taglist = response.data;
                 $scope.selectedTag = $scope.taglist[0];
+                $scope.showTagLocation();
 
             }catch(err){
                 alert(err);
@@ -172,8 +187,13 @@ sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope,
                 title : $scope.selectedTag.mac_id
             });
 
+            getAddress(latlng, "lastKnownLocation");
+            $scope.updateTime = lastUpdatedLocation.update_time;
+
         }else{
-            $("#map_div").empty();
+            $("#map_div").html("No location information available");
+            $scope.updateTime = null;
+            $("#lastKnownLocation").html("");
         }
 
     }
