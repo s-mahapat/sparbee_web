@@ -6,8 +6,8 @@ from rest_framework import mixins
 from rest_framework import generics
 from django.http import JsonResponse
 
-from models import STag, TaggedTrucks, Truck, Tracking
-from serializers import TaggedTrucksSerializer, TruckSerializer, TrackingSerializer,  STagSerializer
+from models import STag, TaggedTrucks, Truck, Tracking, LiveTracking
+from serializers import TaggedTrucksSerializer, TruckSerializer, TrackingSerializer,  STagSerializer, LiveTrackingSerializer
 from collections import OrderedDict
 
 
@@ -82,8 +82,6 @@ class TrackingAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     def post(self, request, *args, **kwargs):
         vehice_number = request.POST.get('veh_no', None)
         tag_mac_id = request.POST.get('mac_id', None)
-        lat = request.POST.get('lat', None)
-        lng = request.POST.get('lng', None)
 
         truck, created = Truck.objects.get_or_create(reg_no=vehice_number)
         stag, created = STag.objects.get_or_create(mac_id=tag_mac_id, active=True)
@@ -100,5 +98,31 @@ class TagList(generics.GenericAPIView, mixins.ListModelMixin):
     serializer_class = STagSerializer
 
     def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class LiveTrackingView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+
+    queryset = LiveTracking.objects.all()
+    serializer_class = LiveTrackingSerializer
+
+    def post(self, request, *args, **kwargs):
+        tag_mac_id = request.POST.get('mac_id', None)
+        stag, created = STag.objects.get_or_create(mac_id=tag_mac_id, active=True)
+        request.POST['stag'] = stag.id
+        return self.create(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class Track(generics.GenericAPIView, mixins.ListModelMixin):
+
+    queryset = LiveTracking.objects.all()
+    serializer_class = LiveTrackingSerializer
+
+    def get(self, request, mac_id, *args, **kwargs):
+        stag = STag.objects.get(mac_id=mac_id)
+        self.queryset = LiveTracking.objects.filter(stag=stag).order_by('-id')[:1]
         return self.list(request, *args, **kwargs)
 

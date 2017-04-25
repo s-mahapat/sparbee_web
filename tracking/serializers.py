@@ -5,7 +5,7 @@ Created on 09-Apr-2017
 '''
 from rest_framework import serializers
 
-from models import TaggedTrucks, Truck, STag, Tracking
+from models import TaggedTrucks, Truck, STag, Tracking, LiveTracking
 
 
 class TruckSerializer(serializers.ModelSerializer):
@@ -35,5 +35,12 @@ class STagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = STag
-        fields = ('id', 'mac_id', 'active', 'location')
+        fields = ('id', 'mac_id', 'active', 'location', 'livelocation')
         depth = 1
+
+
+class LiveTrackingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = LiveTracking
+        fields = ('id', 'stag', 'lat', 'lng', 'mobile', 'radius', 'update_time')

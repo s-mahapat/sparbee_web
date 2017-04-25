@@ -170,31 +170,44 @@ sparbeeApp.controller('TrackingController', ['$scope', '$http', function($scope,
     };
 
     $scope.showTagLocation = function(){
-        var lastUpdatedLocation = $scope.selectedTag.location[$scope.selectedTag.location.length - 1];
-        if(lastUpdatedLocation != undefined){
-            var latlng = new google.maps.LatLng(lastUpdatedLocation.lat, lastUpdatedLocation.lng);
-            // draw the map, center based on first location
-            var map = new google.maps.Map(document
-                    .getElementById('map_div'), {
-              center : latlng,
-              mapTypeId : google.maps.MapTypeId.ROADMAP,
-              zoom : 8
-            });
 
-            var marker = new google.maps.Marker({
-                position : latlng,
-                map : map,
-                title : $scope.selectedTag.mac_id
-            });
+        $http.get('/api/track/' + $scope.selectedTag.mac_id).then(function(response){
 
-            getAddress(latlng, "lastKnownLocation");
-            $scope.updateTime = lastUpdatedLocation.update_time;
+            var lastUpdatedLocation = response.data[0];
 
-        }else{
-            $("#map_div").html("No location information available");
-            $scope.updateTime = null;
-            $("#lastKnownLocation").html("");
-        }
+
+            if(lastUpdatedLocation != undefined){
+
+                $scope.mobile = lastUpdatedLocation.mobile;
+                $scope.radius = lastUpdatedLocation.radius;
+                var latlng = new google.maps.LatLng(lastUpdatedLocation.lat, lastUpdatedLocation.lng);
+                // draw the map, center based on first location
+                var map = new google.maps.Map(document
+                         .getElementById('map_div'), {
+                    center : latlng,
+                    mapTypeId : google.maps.MapTypeId.ROADMAP,
+                    zoom : 8
+                });
+
+                var marker = new google.maps.Marker({
+                    position : latlng,
+                    map : map,
+                    title : $scope.selectedTag.mac_id
+                });
+
+                getAddress(latlng, "lastKnownLocation");
+                $scope.updateTime = lastUpdatedLocation.update_time;
+
+          }else{
+              $("#map_div").html("No location information available");
+              $scope.updateTime = null;
+              $("#lastKnownLocation").html("");
+          }
+
+        }, function(errorResponse){
+            // error case
+            alert('Failed to get tag location from server' + errorResponse.statusText);
+        });
 
     }
 

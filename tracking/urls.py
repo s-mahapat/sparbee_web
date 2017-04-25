@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^api/truck/(?P<truck_id>\d+)/items?$', views.ItemsInTruck.as_view(), name='truckitems'),
     url(r'^api/tracking?$', views.TrackingAPI.as_view(), name='tracking'),
     url(r'^api/taglist$', views.TagList.as_view(), name='taglist'),
+    url(r'^api/livetrack?$', views.LiveTrackingView.as_view(), name='livetrack'),
+    url(r'^api/track/(?P<mac_id>\w+)?$', views.Track.as_view(), name="track"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
